@@ -1,0 +1,9 @@
+---
+slug: :temporary_mute
+depends:
+  mikutter: '3.0'
+  plugin: []
+version: '1.0'
+author: zwxi
+name: temporary mute
+description: 一時的なミュート
