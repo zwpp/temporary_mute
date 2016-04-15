@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
 Plugin.create(:temporary_mute) do
+
+  # 一時ミュートする時間(秒)
+  UserConfig[:temporary_mute_seconds] ||= 1800 # 30分
+
   @muted_users = Set.new        # user_id
 
   command(:temporary_mute_user_add,
@@ -27,6 +31,10 @@ Plugin.create(:temporary_mute) do
                                            :system => true)])
   end
 
+  settings "temporary_mute" do
+    adjustment "ミュートする時間(秒)", :temporary_mute_seconds, 1, 60 ** 2 * HYDE
+  end
+
   class << self
     def temporary_mute(user, mute_limit)
       Plugin.call(:temporary_mute_muted, user, mute_limit)
@@ -39,9 +47,6 @@ Plugin.create(:temporary_mute) do
       Plugin.call(:temporary_mute_unmuted, user)
       @muted_users.delete(user.id) 
     end
-
-  # 一時ミュートする時間(秒)
-  UserConfig[:temporary_mute_seconds] ||= 1800 # 30分
   end
 
 end
